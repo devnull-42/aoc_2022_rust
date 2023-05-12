@@ -30,8 +30,8 @@ fn main() {
         3 => {
             let file = fs::read_to_string("./input/day03.txt").unwrap();
             println!("Part 1: {}", days::day03::part1(&file));
-            // println!("Part 2: {}", days::day03::part2(&file));
+            println!("Part 2: {}", days::day03::part2(&file));
         }
-        _ => println!("day not implemented yet"),
+        _ => println!("invalid day"),
     }
 }
