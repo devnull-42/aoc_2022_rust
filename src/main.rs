@@ -14,7 +14,7 @@ fn main() {
     }
 
     // Get the first argument
-    let day = &args[1].parse::<i32>().unwrap_or(0);
+    let day = &args[1].parse::<u8>().unwrap_or(0);
 
     match day {
         1 => {
@@ -36,6 +36,11 @@ fn main() {
             let file = fs::read_to_string("./input/day04.txt").unwrap();
             println!("Part 1: {}", days::day04::part1(&file));
             println!("Part 2: {}", days::day04::part2(&file));
+        }
+        5 => {
+            let file = fs::read_to_string("./input/day05.txt").unwrap();
+            println!("Part 1: {}", days::day05::part1(&file));
+            println!("Part 2: {}", days::day05::part2(&file));
         }
         _ => println!("invalid day"),
     }
