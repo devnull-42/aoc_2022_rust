@@ -7,14 +7,11 @@ fn main() {
     // Get the command-line arguments
     let args: Vec<String> = env::args().collect();
 
+    let mut day: u8 = 0;
     // Check if an argument was provided
-    if args.len() < 2 {
-        println!("Please provide an argument.");
-        return;
+    if args.len() > 1 {
+        day = args[1].parse::<u8>().unwrap_or(0);
     }
-
-    // Get the first argument
-    let day = &args[1].parse::<u8>().unwrap_or(0);
 
     match day {
         1 => {
@@ -56,6 +53,11 @@ fn main() {
             let file = fs::read_to_string("./input/day08.txt").unwrap();
             println!("Part 1: {}", days::day08::part1(&file));
             println!("Part 2: {}", days::day08::part2(&file));
+        }
+        9 => {
+            let file = fs::read_to_string("./input/day09.txt").unwrap();
+            println!("Part 1: {}", days::day09::part1(&file));
+            println!("Part 2: {}", days::day09::part2(&file));
         }
         0 => {
             println!("=======    Day 01    =======");
@@ -104,6 +106,12 @@ fn main() {
             let file = fs::read_to_string("./input/day08.txt").unwrap();
             println!("Part 1: {}", days::day08::part1(&file));
             println!("Part 2: {}", days::day08::part2(&file));
+            println!();
+
+            println!("=======    Day 09    =======");
+            let file = fs::read_to_string("./input/day09.txt").unwrap();
+            println!("Part 1: {}", days::day09::part1(&file));
+            println!("Part 2: {}", days::day09::part2(&file));
             println!();
         }
         _ => println!("invalid day"),
