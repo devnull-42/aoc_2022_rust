@@ -106,7 +106,7 @@ fn parse_operation(input: &str) -> IResult<&str, Operation> {
         "*" => Ok((input, Operation::Multiply((Value::Old, v1)))),
         "+" => Ok((input, Operation::Add((Value::Old, v1)))),
         _ => Err(nom::Err::Error(nom::error::Error {
-            input: input,
+            input,
             code: nom::error::ErrorKind::Char,
         })),
     }

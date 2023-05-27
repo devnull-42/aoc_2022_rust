@@ -16,14 +16,14 @@ struct ClockCircuit {
 
 impl ClockCircuit {
     fn new() -> ClockCircuit {
-        return ClockCircuit {
+        ClockCircuit {
             cycle: 0,
             register: 1,
             next_val: 0,
             instruction_queue: Vec::new(),
             processing: false,
             gpu_out: Vec::new(),
-        };
+        }
     }
 
     fn process(&mut self) -> Option<(i32, i32)> {
@@ -31,7 +31,7 @@ impl ClockCircuit {
         match instruction {
             Some(val) => {
                 self.cycle += 1;
-                let current_register = self.register.clone();
+                let current_register = self.register;
                 if self.processing {
                     self.register += self.next_val;
                     self.next_val = 0;
@@ -41,12 +41,12 @@ impl ClockCircuit {
                     Instruction::Addx(v) => {
                         self.processing = true;
                         self.next_val = v;
-                        return Some((self.cycle, self.register));
+                        Some((self.cycle, self.register))
                     }
-                    Instruction::Noop => return Some((self.cycle, current_register)),
+                    Instruction::Noop => Some((self.cycle, current_register)),
                 }
             }
-            None => return None,
+            None => None,
         }
     }
 
@@ -73,12 +73,12 @@ impl ClockCircuit {
                     Instruction::Addx(v) => {
                         self.processing = true;
                         self.next_val = v;
-                        return true;
+                        true
                     }
-                    Instruction::Noop => return true,
+                    Instruction::Noop => true,
                 }
             }
-            None => return false,
+            None => false,
         }
     }
 }
@@ -94,7 +94,7 @@ fn parse_commands(input: &str) -> Vec<Instruction> {
         instructions.push(Instruction::Noop);
     }
     instructions.reverse();
-    return instructions;
+    instructions
 }
 
 pub fn part1(input: &str) -> String {
@@ -128,12 +128,12 @@ pub fn part2(input: &str) -> String {
     let lines = clock
         .gpu_out
         .chunks(40)
-        .map(|l| l.into_iter().collect::<String>())
+        .map(|l| l.iter().collect::<String>())
         .collect::<Vec<String>>();
 
     let result = format!("\n{}", lines.join("\n"));
 
-    result.to_string()
+    result
 }
 
 #[cfg(test)]

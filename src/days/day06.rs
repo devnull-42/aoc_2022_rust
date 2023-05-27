@@ -7,13 +7,11 @@ pub fn part1(input: &str) -> String {
         if let Some(i) = found {
             packet.drain(0..=i);
             packet.push(c);
+        } else if packet.len() == 3 {
+            packet.push(c);
+            return (idx + 1).to_string();
         } else {
-            if packet.len() == 3 {
-                packet.push(c);
-                return (idx + 1).to_string();
-            } else {
-                packet.push(c);
-            }
+            packet.push(c);
         }
     }
 
@@ -29,20 +27,18 @@ pub fn part2(input: &str) -> String {
         if let Some(i) = found {
             packet.drain(0..=i);
             packet.push(c);
+        } else if packet.len() == 13 {
+            packet.push(c);
+            return (idx + 1).to_string();
         } else {
-            if packet.len() == 13 {
-                packet.push(c);
-                return (idx + 1).to_string();
-            } else {
-                packet.push(c);
-            }
+            packet.push(c);
         }
     }
 
     "".to_string()
 }
 
-fn find_char(vec: &Vec<char>, ch: char) -> Option<usize> {
+fn find_char(vec: &[char], ch: char) -> Option<usize> {
     for (i, &c) in vec.iter().enumerate() {
         if c == ch {
             return Some(i);

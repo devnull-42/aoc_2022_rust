@@ -7,14 +7,11 @@ fn parse_terrain_map(input: &str) -> (Vec<Vec<u32>>, (usize, usize), (usize, usi
     let mut start: (usize, usize) = (0, 0);
     let mut end: (usize, usize) = (0, 0);
 
-    let mut y = 0 as usize;
     let mut terrain_map: Vec<Vec<u32>> = Vec::new();
     let lines = input.lines();
-    for line in lines {
-        let mut x = 0 as usize;
-
+    for (y, line) in lines.enumerate() {
         let mut row: Vec<u32> = Vec::new();
-        for c in line.chars() {
+        for (x, c) in line.chars().enumerate() {
             if c == 'S' {
                 start = (x, y);
                 row.push('a' as u32);
@@ -24,10 +21,8 @@ fn parse_terrain_map(input: &str) -> (Vec<Vec<u32>>, (usize, usize), (usize, usi
             } else {
                 row.push(c as u32);
             }
-            x += 1;
         }
         terrain_map.push(row);
-        y += 1;
     }
     (terrain_map, start, end)
 }
@@ -38,14 +33,11 @@ fn parse_terrain_map_multiple_starts(
     let mut starts: Vec<(usize, usize)> = Vec::new();
     let mut end: (usize, usize) = (0, 0);
 
-    let mut y = 0 as usize;
     let mut terrain_map: Vec<Vec<u32>> = Vec::new();
     let lines = input.lines();
-    for line in lines {
-        let mut x = 0 as usize;
-
+    for (y, line) in lines.enumerate() {
         let mut row: Vec<u32> = Vec::new();
-        for c in line.chars() {
+        for (x, c) in line.chars().enumerate() {
             if c == 'S' || c == 'a' {
                 starts.push((x, y));
                 row.push('a' as u32);
@@ -55,10 +47,8 @@ fn parse_terrain_map_multiple_starts(
             } else {
                 row.push(c as u32);
             }
-            x += 1;
         }
         terrain_map.push(row);
-        y += 1;
     }
     (terrain_map, starts, end)
 }
@@ -66,8 +56,8 @@ fn parse_terrain_map_multiple_starts(
 fn build_graph(terrain_map: Vec<Vec<u32>>) -> GraphMap<(usize, usize), i32, Directed> {
     let mut graph: GraphMap<(usize, usize), i32, Directed> =
         petgraph::graphmap::GraphMap::<_, _, Directed>::new();
-    for y in 0..terrain_map.len() {
-        for x in 0..terrain_map[y].len() {
+    for (y, map_row) in terrain_map.iter().enumerate() {
+        for (x, _) in map_row.iter().enumerate() {
             graph.add_node((x, y));
         }
     }
@@ -112,9 +102,9 @@ pub fn part1(input: &str) -> String {
     // println!("{:?}", Dot::with_config(&graph, &[Config::EdgeNoLabel]));
     let shortest_path = dijkstra(&graph, start, Some(end), |_| 1);
     if let Some(path) = shortest_path.get(&end) {
-        return path.to_string();
+        path.to_string()
     } else {
-        return "path not found".to_string();
+        "path not found".to_string()
     }
 }
 

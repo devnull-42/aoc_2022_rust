@@ -16,12 +16,10 @@ pub fn part1(input: &str) -> String {
         let mut found = "".to_string();
 
         first.chars().for_each(|c| {
-            if second.contains(c) {
-                if !found.contains(c) {
-                    found.push(c);
-                    let a = priorities.get(&c).unwrap();
-                    total += *a as u32;
-                }
+            if second.contains(c) && !found.contains(c) {
+                found.push(c);
+                let a = priorities.get(&c).unwrap();
+                total += *a as u32;
             }
         })
     });

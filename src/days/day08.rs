@@ -28,7 +28,7 @@ fn check_top(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
             return false;
         }
     }
-    return true;
+    true
 }
 
 fn check_bottom(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
@@ -38,7 +38,7 @@ fn check_bottom(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
             return false;
         }
     }
-    return true;
+    true
 }
 
 fn check_left(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
@@ -48,7 +48,7 @@ fn check_left(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
             return false;
         }
     }
-    return true;
+    true
 }
 
 fn check_right(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
@@ -58,14 +58,14 @@ fn check_right(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
             return false;
         }
     }
-    return true;
+    true
 }
 
 fn is_visible(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
-    return check_top(grid, pos)
+    check_top(grid, pos)
         || check_bottom(grid, pos)
         || check_left(grid, pos)
-        || check_right(grid, pos);
+        || check_right(grid, pos)
 }
 
 fn trees_visible_up(grid: &Vec<Vec<u8>>, pos: &Pos) -> u32 {
@@ -79,7 +79,7 @@ fn trees_visible_up(grid: &Vec<Vec<u8>>, pos: &Pos) -> u32 {
         }
     }
 
-    return count;
+    count
 }
 
 fn trees_visible_down(grid: &Vec<Vec<u8>>, pos: &Pos) -> u32 {

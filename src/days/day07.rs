@@ -12,8 +12,8 @@ fn parse_command(line: &str) -> Command {
     if line.starts_with("$ cd") {
         let d = line.trim_start_matches("$ cd ");
         match d {
-            ".." => return Command::DirUp,
-            _ => return Command::Dir(d.to_string()),
+            ".." => Command::DirUp,
+            _ => Command::Dir(d.to_string()),
         }
     } else if line.starts_with("$ ls") || line.starts_with("dir ") {
         return Command::Other(line.to_string());
@@ -21,7 +21,7 @@ fn parse_command(line: &str) -> Command {
         let file_size = line
             .split_whitespace()
             .collect::<Vec<&str>>()
-            .get(0)
+            .first()
             .unwrap()
             .parse::<u32>()
             .unwrap();
@@ -41,7 +41,7 @@ fn parse_commands(input: &str) -> HashMap<String, u32> {
         let c = parse_command(line);
         match c {
             Command::Dir(val) => {
-                let current_dir = dir_path.last().clone().unwrap_or(&val).to_string() + &val;
+                let current_dir = dir_path.last().unwrap_or(&val).to_string() + &val;
                 dir_path.push(current_dir.clone());
                 dir_structure.entry(current_dir.clone()).or_insert(0);
             }
@@ -59,15 +59,14 @@ fn parse_commands(input: &str) -> HashMap<String, u32> {
         }
     }
 
-    return dir_structure;
+    dir_structure
 }
 
 pub fn part1(input: &str) -> String {
     let dir_structure = parse_commands(input);
 
     let result = &dir_structure
-        .into_iter()
-        .map(|(_, v)| v)
+        .into_values()
         .filter(|v| v.le(&100_000))
         .sum::<u32>();
     result.to_string()
@@ -79,14 +78,11 @@ pub fn part2(input: &str) -> String {
 
     let dir_structure = parse_commands(input);
 
-    let mut sizes = dir_structure
-        .into_iter()
-        .map(|(_, v)| v)
-        .collect::<Vec<u32>>();
+    let mut sizes = dir_structure.into_values().collect::<Vec<u32>>();
 
     sizes.sort();
 
-    let used_space = sizes.last().clone().unwrap();
+    let used_space = sizes.last().unwrap();
     let space_target = NEEDED_SPACE - (TOTAL_SPACE - used_space);
 
     for size in &sizes {

@@ -17,12 +17,11 @@ struct Rope {
 
 impl Rope {
     fn new(sections: usize) -> Rope {
-        let rope = Rope {
+        Rope {
             num_moves: 0,
             sections: vec![(0, 0); sections],
             tail_positions: HashSet::new(),
-        };
-        return rope;
+        }
     }
 
     fn instruction(&mut self, m: MoveCmd) {
@@ -91,8 +90,7 @@ impl Rope {
             MoveCmd::Stay => {}
         }
         if section == self.sections.len() - 1 {
-            self.tail_positions
-                .insert(self.sections.last().unwrap().clone());
+            self.tail_positions.insert(*self.sections.last().unwrap());
         }
     }
 
@@ -112,7 +110,7 @@ impl Rope {
             } else {
                 return MoveCmd::Down(1);
             }
-        } else if x_dist.abs() > 1 && y_dist.abs() >0 || x_dist.abs() >0 && y_dist.abs() > 1 {
+        } else if x_dist.abs() > 1 && y_dist.abs() > 0 || x_dist.abs() > 0 && y_dist.abs() > 1 {
             let x = x_dist / x_dist.abs();
             let y = y_dist / y_dist.abs();
             return MoveCmd::Diag((x, y));
@@ -125,7 +123,7 @@ impl Rope {
                 self.sections[section]
             );
         }
-        return MoveCmd::Stay;
+        MoveCmd::Stay
     }
 }
 

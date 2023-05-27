@@ -85,11 +85,11 @@ pub fn part1(input: &str) -> String {
     let mut total: u32 = 0;
     input.lines().for_each(|line| {
         let turns: Vec<Turn> = line
-            .split(" ")
+            .split(' ')
             .map(|s| s.parse::<Turn>().unwrap())
             .collect();
 
-        total += turns.get(1).unwrap().resolve(&turns.get(0).unwrap());
+        total += turns.get(1).unwrap().resolve(turns.get(0).unwrap());
     });
     total.to_string()
 }
@@ -97,7 +97,7 @@ pub fn part1(input: &str) -> String {
 pub fn part2(input: &str) -> String {
     let mut total: u32 = 0;
     input.lines().for_each(|line| {
-        let mut parts = line.split(" ");
+        let mut parts = line.split(' ');
         let opp = parts.next().unwrap().parse::<Turn>().unwrap();
         let res = parts.next().unwrap().parse::<Outcome>().unwrap();
         total += opp.get_turn(&res);

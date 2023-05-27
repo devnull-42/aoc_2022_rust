@@ -39,7 +39,7 @@ fn parse_crates(input: &str) -> Vec<Vec<char>> {
             }
             let check_char = c.get(1).unwrap();
             if check_char.is_alphabetic() {
-                stacks[stacknum].push(check_char.clone());
+                stacks[stacknum].push(*check_char);
             }
             stacknum += 1;
         });
