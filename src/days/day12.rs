@@ -3,9 +3,11 @@ use petgraph::algo::dijkstra;
 use petgraph::graphmap::GraphMap;
 use petgraph::*;
 
-fn parse_terrain_map(input: &str) -> (Vec<Vec<u32>>, (usize, usize), (usize, usize)) {
-    let mut start: (usize, usize) = (0, 0);
-    let mut end: (usize, usize) = (0, 0);
+type Point = (usize, usize);
+
+fn parse_terrain_map(input: &str) -> (Vec<Vec<u32>>, Point, Point) {
+    let mut start: Point = (0, 0);
+    let mut end: Point = (0, 0);
 
     let mut terrain_map: Vec<Vec<u32>> = Vec::new();
     let lines = input.lines();
@@ -27,11 +29,9 @@ fn parse_terrain_map(input: &str) -> (Vec<Vec<u32>>, (usize, usize), (usize, usi
     (terrain_map, start, end)
 }
 
-fn parse_terrain_map_multiple_starts(
-    input: &str,
-) -> (Vec<Vec<u32>>, Vec<(usize, usize)>, (usize, usize)) {
-    let mut starts: Vec<(usize, usize)> = Vec::new();
-    let mut end: (usize, usize) = (0, 0);
+fn parse_terrain_map_multiple_starts(input: &str) -> (Vec<Vec<u32>>, Vec<Point>, Point) {
+    let mut starts: Vec<Point> = Vec::new();
+    let mut end: Point = (0, 0);
 
     let mut terrain_map: Vec<Vec<u32>> = Vec::new();
     let lines = input.lines();

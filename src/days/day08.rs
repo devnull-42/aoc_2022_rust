@@ -21,27 +21,23 @@ struct Pos {
     y: usize,
 }
 
-fn check_top(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
+fn check_top(grid: &[Vec<u8>], pos: &Pos) -> bool {
     let tree = grid[pos.y][pos.x];
-    for i in 0..pos.y {
-        if grid[i][pos.x] >= tree {
-            return false;
-        }
-    }
-    true
+    grid.iter()
+        .enumerate()
+        .take(pos.y)
+        .all(|(_y, row)| row[pos.x] < tree)
 }
 
-fn check_bottom(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
+fn check_bottom(grid: &[Vec<u8>], pos: &Pos) -> bool {
     let tree = grid[pos.y][pos.x];
-    for i in (pos.y + 1)..grid.len() {
-        if grid[i][pos.x] >= tree {
-            return false;
-        }
-    }
-    true
+    grid.iter()
+        .enumerate()
+        .skip(pos.y + 1)
+        .all(|(_y, row)| row[pos.x] < tree)
 }
 
-fn check_left(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
+fn check_left(grid: &[Vec<u8>], pos: &Pos) -> bool {
     let tree = grid[pos.y][pos.x];
     for i in 0..pos.x {
         if grid[pos.y][i] >= tree {
@@ -51,7 +47,7 @@ fn check_left(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
     true
 }
 
-fn check_right(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
+fn check_right(grid: &[Vec<u8>], pos: &Pos) -> bool {
     let tree = grid[pos.y][pos.x];
     for i in (pos.x + 1)..grid[pos.y].len() {
         if grid[pos.y][i] >= tree {
@@ -61,41 +57,30 @@ fn check_right(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
     true
 }
 
-fn is_visible(grid: &Vec<Vec<u8>>, pos: &Pos) -> bool {
+fn is_visible(grid: &[Vec<u8>], pos: &Pos) -> bool {
     check_top(grid, pos)
         || check_bottom(grid, pos)
         || check_left(grid, pos)
         || check_right(grid, pos)
 }
 
-fn trees_visible_up(grid: &Vec<Vec<u8>>, pos: &Pos) -> u32 {
+fn trees_visible_up(grid: &[Vec<u8>], pos: &Pos) -> u32 {
     let tree = grid[pos.y][pos.x];
-    let mut count: u32 = 0;
-
-    for i in (0..pos.y).rev() {
-        count += 1;
-        if grid[i][pos.x] >= tree {
-            return count;
-        }
-    }
-
-    count
+    grid.iter()
+        .take(pos.y)
+        .take_while(|&row| row[pos.x] < tree)
+        .count() as u32
 }
 
-fn trees_visible_down(grid: &Vec<Vec<u8>>, pos: &Pos) -> u32 {
+fn trees_visible_down(grid: &[Vec<u8>], pos: &Pos) -> u32 {
     let tree = grid[pos.y][pos.x];
-    let mut count: u32 = 0;
-
-    for i in (pos.y + 1)..grid.len() {
-        count += 1;
-        if grid[i][pos.x] >= tree {
-            return count;
-        }
-    }
-    count
+    grid.iter()
+        .skip(pos.y + 1)
+        .take_while(|&row| row[pos.x] < tree)
+        .count() as u32
 }
 
-fn trees_visible_left(grid: &Vec<Vec<u8>>, pos: &Pos) -> u32 {
+fn trees_visible_left(grid: &[Vec<u8>], pos: &Pos) -> u32 {
     let tree = grid[pos.y][pos.x];
     let mut count: u32 = 0;
 
@@ -108,17 +93,12 @@ fn trees_visible_left(grid: &Vec<Vec<u8>>, pos: &Pos) -> u32 {
     count
 }
 
-fn trees_visible_right(grid: &Vec<Vec<u8>>, pos: &Pos) -> u32 {
+fn trees_visible_right(grid: &[Vec<u8>], pos: &Pos) -> u32 {
     let tree = grid[pos.y][pos.x];
-    let mut count: u32 = 0;
-
-    for i in (pos.x + 1)..grid[0].len() {
-        count += 1;
-        if grid[pos.y][i] >= tree {
-            return count;
-        }
-    }
-    count
+    grid[pos.y][pos.x + 1..]
+        .iter()
+        .take_while(|&cell| *cell < tree)
+        .count() as u32
 }
 
 pub fn part1(input: &str) -> String {
