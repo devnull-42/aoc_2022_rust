@@ -74,6 +74,11 @@ fn main() {
             println!("Part 1: {}", days::day12::part1(&file));
             println!("Part 2: {}", days::day12::part2(&file));
         }
+        13 => {
+            let file = fs::read_to_string("./input/day13.txt").unwrap();
+            println!("Part 1: {}", days::day13::part1(&file));
+            println!("Part 2: {}", days::day13::part2(&file));
+        }
         0 => {
             println!("=======    Day 01    =======");
             let file = fs::read_to_string("./input/day01.txt").unwrap();
@@ -145,6 +150,12 @@ fn main() {
             let file = fs::read_to_string("./input/day12.txt").unwrap();
             println!("Part 1: {}", days::day12::part1(&file));
             println!("Part 2: {}", days::day12::part2(&file));
+            println!();
+
+            println!("=======    Day 13    =======");
+            let file = fs::read_to_string("./input/day13.txt").unwrap();
+            println!("Part 1: {}", days::day13::part1(&file));
+            println!("Part 2: {}", days::day13::part2(&file));
             println!();
         }
         _ => println!("invalid day"),
